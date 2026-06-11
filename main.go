@@ -45,7 +45,7 @@ func main() {
 		Windows: &windows.Options{
 			WebviewIsTransparent:              true,
 			WindowIsTranslucent:               true,
-			DisableFramelessWindowDecorations: false,
+			DisableFramelessWindowDecorations: true,
 		},
 		CSSDragProperty: "--wails-draggable",
 		CSSDragValue:    "drag",
