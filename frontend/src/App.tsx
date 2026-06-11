@@ -1,40 +1,12 @@
-import {useCallback, useEffect, useRef, useState, type CSSProperties} from 'react';
+import type {CSSProperties} from 'react';
 import './App.css';
-import {Quit, WindowIsMaximised, WindowMinimise, WindowToggleMaximise} from '../wailsjs/runtime/runtime';
+import {Quit, WindowMinimise, WindowToggleMaximise} from '../wailsjs/runtime/runtime';
 
 const dragRegionStyle = {'--wails-draggable': 'drag'} as CSSProperties;
 
 function App() {
-    const [isMaximised, setIsMaximised] = useState(false);
-    const resizeTimer = useRef<number>();
-
-    const syncMaximisedState = useCallback(() => {
-        WindowIsMaximised().then(setIsMaximised).catch(() => setIsMaximised(false));
-    }, []);
-
-    const toggleMaximise = () => {
-        WindowToggleMaximise();
-        window.setTimeout(syncMaximisedState, 80);
-    };
-
-    useEffect(() => {
-        syncMaximisedState();
-
-        const handleResize = () => {
-            window.clearTimeout(resizeTimer.current);
-            resizeTimer.current = window.setTimeout(syncMaximisedState, 160);
-        };
-
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.clearTimeout(resizeTimer.current);
-            window.removeEventListener('resize', handleResize);
-        };
-    }, [syncMaximisedState]);
-
     return (
-        <main id="App" className={isMaximised ? 'is-maximised' : undefined}>
+        <main id="App">
             <section className="window-shell">
                 <header className="titlebar">
                     <div className="drag-region" style={dragRegionStyle}>
@@ -45,7 +17,7 @@ function App() {
                         <button className="window-button" type="button" aria-label="Minimise window" onClick={WindowMinimise}>
                             -
                         </button>
-                        <button className="window-button" type="button" aria-label="Maximise window" onClick={toggleMaximise}>
+                        <button className="window-button" type="button" aria-label="Maximise window" onClick={WindowToggleMaximise}>
                             []
                         </button>
                         <button className="window-button close" type="button" aria-label="Close app" onClick={Quit}>

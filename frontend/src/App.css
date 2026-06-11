@@ -23,13 +23,6 @@
     backdrop-filter: saturate(130%);
 }
 
-#App.is-maximised .window-shell {
-    width: 100vw;
-    height: 100vh;
-    border: 0;
-    border-radius: 0;
-}
-
 .titlebar {
     display: flex;
     height: 48px;
